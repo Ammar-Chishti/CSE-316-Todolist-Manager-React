@@ -3,6 +3,7 @@ import ListHeading from './ListHeading'
 import ListItemsTable from './ListItemsTable'
 import ListTrash from './ListTrash'
 import PropTypes from 'prop-types';
+import { ModalYesNoDialog } from './ModalYesNoDialog';
 
 export class ListScreen extends Component {
     getListName() {
@@ -18,6 +19,10 @@ export class ListScreen extends Component {
         }
     }
     handleChangeName = (e) => {
+        if (e.target.value === "") {
+            this.props.todoList.name = "Unknown"
+            return
+        }
         this.props.todoList.name = e.target.value
     }
     handleChangeOwner = (e) => {
@@ -26,6 +31,7 @@ export class ListScreen extends Component {
     render() {
         return (
             <div id="todo_list">
+                <ModalYesNoDialog />
                 <ListHeading goHome={this.props.goHome} />
                 <ListTrash deleteList={this.props.deleteList}/>
                 <div id="list_details_container">
