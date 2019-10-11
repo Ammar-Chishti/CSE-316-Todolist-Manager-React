@@ -44,6 +44,12 @@ body {
 
 /* LIST SCREEN CONTROLS */
 #list_heading {}
+#modal_yes_no_dialog {
+  top: 162px;
+  width: 500px;
+  left: 23%;
+  position: absolute;
+}
 #list_trash {
   position: absolute;
   left: 85%;

@@ -73,6 +73,17 @@ body {
 #list_heading:hover {
   color: var(--swatch-accent);
 }
+#modal_yes_no_dialog {
+  height: 250px;
+  visibility: hidden;
+  z-index: 5;
+  text-align: left;
+  background-color: #EEE8AA
+}
+#modal_yes_no_dialog button {
+  height: 50px;
+  width: 50px;
+}
 #list_details_container {}
 #list_details_name_container {}
 #list_name_prompt, #list_owner_prompt {
@@ -155,6 +166,7 @@ body {
 .disabled:hover {
   color: var(--swatch-neutral);
 }
+
 
 /* ITEM SCREEN CONTROLS */
 #item_heading {}

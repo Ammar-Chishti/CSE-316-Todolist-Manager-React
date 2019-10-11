@@ -21,7 +21,6 @@ export class ListScreen extends Component {
     handleChangeName = (e) => {
         var homeButton = document.getElementById("list_heading");
         if (e.target.value === "") {
-            console.log("Duh")
             homeButton.style.pointerEvents = "none"
         } else {
             homeButton.style.pointerEvents = "auto";
@@ -35,9 +34,9 @@ export class ListScreen extends Component {
     render() {
         return (
             <div id="todo_list">
-                <ModalYesNoDialog />
                 <ListHeading goHome={this.props.goHome} />
-                <ListTrash deleteList={this.props.deleteList}/>
+                <ModalYesNoDialog deleteList={this.props.deleteList}/>
+                <ListTrash />
                 <div id="list_details_container">
                     <div id="list_details_name_container" className="text_toolbar">
                         <span id="list_name_prompt">Name:</span>
