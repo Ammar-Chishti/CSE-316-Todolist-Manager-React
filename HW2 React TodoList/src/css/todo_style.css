@@ -90,6 +90,9 @@ body {
   cursor: pointer;
 }
 #list_items_container {}
+#list_items_second_container {
+  background-color: var(--swatch-primary);
+}
 
 /* LIST SCREEN CLASSES */
 .list_item_card, .list_item_add_card {
