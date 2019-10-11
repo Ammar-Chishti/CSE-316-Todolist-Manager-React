@@ -148,3 +148,27 @@ body {
 .item_input {
   grid-column: 2 / 4;
 }
+
+/* NEW/EDIT ITEM SCREEN CLASSES */
+#todo_edit body {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 4;
+  visibility: visible;
+}
+#todo_edit_home body {
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  height: 350px;
+}
+.edit_home_object {
+  position: absolute;
+  left: 200px;
+}
+.edit_home_checkbox {
+  position: absolute;
+  left: 196px;
+}
