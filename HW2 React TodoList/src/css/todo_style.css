@@ -22,7 +22,7 @@ body {
 
 /* SCREENS */
 #todo_home, #todo_list, #todo_item {
-  background-color: var(--my-font-family);
+  background-color: var(--swatch-primary);
 }
 #todo_list {}
 #todo_item {}
