@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 export class ListScreen extends Component {
     getListName() {
         if (this.props.todoList) {
-            //let name = this.props.todoList.name;
             return this.props.todoList.name;
         }
         else
@@ -15,7 +14,6 @@ export class ListScreen extends Component {
     }
     getListOwner() {
         if (this.props.todoList) {
-            //let owner = this.props.todoList.owner;
             return this.props.todoList.owner;
         }
     }
@@ -29,12 +27,12 @@ export class ListScreen extends Component {
         return (
             <div id="todo_list">
                 <ListHeading goHome={this.props.goHome} />
-                <ListTrash />
+                <ListTrash deleteList={this.props.deleteList}/>
                 <div id="list_details_container">
                     <div id="list_details_name_container" className="text_toolbar">
                         <span id="list_name_prompt">Name:</span>
                         <input 
-                            defaultValue={this.getListName()} 
+                            defaultValue={this.getListName()}
                             type="text" 
                             id="list_name_textfield" 
                             onChange={this.handleChangeName}/>
