@@ -19,11 +19,15 @@ export class ListScreen extends Component {
         }
     }
     handleChangeName = (e) => {
+        var homeButton = document.getElementById("list_heading");
         if (e.target.value === "") {
-            this.props.todoList.name = "Unknown"
-            return
+            console.log("Duh")
+            homeButton.style.pointerEvents = "none"
+        } else {
+            homeButton.style.pointerEvents = "auto";
+            this.props.todoList.name = e.target.value
         }
-        this.props.todoList.name = e.target.value
+        
     }
     handleChangeOwner = (e) => {
         this.props.todoList.owner = e.target.value
