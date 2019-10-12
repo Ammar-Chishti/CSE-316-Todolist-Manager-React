@@ -55,7 +55,9 @@ export class ListScreen extends Component {
                             onChange={this.handleChangeOwner}/>
                     </div>
                 </div>
-                <ListItemsTable todoList={this.props.todoList} />
+                <ListItemsTable 
+                todoList={this.props.todoList} 
+                createNewListItem={this.props.createNewListItem}/>
             </div>
         )
     }

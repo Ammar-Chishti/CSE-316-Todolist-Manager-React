@@ -14,7 +14,8 @@ class App extends Component {
   state = {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
-    currentList: null
+    currentList: null,
+    currentListHold: null
   }
 
   goHome = () => {
@@ -48,10 +49,16 @@ class App extends Component {
 
   // Add a new todoListItem to the current todoList
   createTodoListItem = () => {
+    //console.log(this.state.todoItem)
+    //console.log(this.state.ItemScreen)
+    //this.setState({currentScreenHold: this.state.currentScreen})
+    this.setState({currentScreen: AppScreen.ITEM_SCREEN})
+    //console.log(this.state.currentScreen)
     //let newDescription = document.getElementById("description_input").value;
     //let newAssignedTo = document.getElementById("assigned_to_input").value;
     //let newDueDate = document.getElementById("due_date_input").value;
     //let isChecked = document.getElementById("checkbox_input").checked;
+    //console.log(newDescription)
 
     //this.setState({ todoLists: [...this.state.todoLists, 
       
@@ -98,11 +105,12 @@ class App extends Component {
         return <ListScreen
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
-          deleteList={this.delTodo.bind(this)}/>;
+          deleteList={this.delTodo.bind(this)}
+          createNewListItem={() => this.setState({currentScreen: AppScreen.ITEM_SCREEN})}/>;
       case AppScreen.ITEM_SCREEN:
-        return <ItemScreen 
-        hideNewListScreen={() => this.goHome()}
-        submitNewListScreen={() => this.createTodo()}/>;
+        return <ItemScreen
+        hideNewListScreen={() => this.loadList(this.state.currentList)}
+        submitNewListScreen={() => this.createTodoListItem()}/>;ß
       default:
         return <div>ERROR</div>;
     }

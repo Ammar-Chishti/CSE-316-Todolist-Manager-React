@@ -17,6 +17,9 @@ export class ListItemsTable extends Component {
                             listItem={todoItem} />
                     ))
                 }
+                <div className="new_item_button_div">
+                    <button className="new_item_button" onClick={this.props.createNewListItem}></button>
+                </div>
                 </div>
             </div>
         )
