@@ -48,7 +48,8 @@ class App extends Component {
           todoList={this.state.currentList}
           deleteList={this.delTodo.bind(this)}/>;
       case AppScreen.ITEM_SCREEN:
-        return <ItemScreen />;
+        return <ItemScreen 
+        hideItemScreen={() => this.goHome()}/>;
       default:
         return <div>ERROR</div>;
     }

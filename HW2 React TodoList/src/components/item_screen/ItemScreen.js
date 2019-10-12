@@ -31,7 +31,7 @@ export class ItemScreen extends Component {
                     <br />
                     <br />
                     <button type="button" id="todo_edit_home_submit" class="todo_edit_button">Submit</button>
-                    <button type="button" id="todo_edit_home_cancel" class="todo_edit_button">Cancel</button>
+                    <button type="button" id="todo_edit_home_cancel" class="todo_edit_button" onClick={this.props.hideItemScreen}>Cancel</button>
                 </div>
             </div>
         )
