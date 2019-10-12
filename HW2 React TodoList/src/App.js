@@ -35,6 +35,17 @@ class App extends Component {
     this.goHome()
   }
 
+  createTodoList = () => {
+    let todoList = {
+      "key": this.state.todoLists.length,
+      "name": "Unknown",
+      "Owner": "",
+      "items": []
+    }
+    this.setState({ todoLists: [...this.state.todoLists, todoList]})
+    this.loadList(todoList)
+  }
+
   // Add a new todoListItem to the current todoList
   createTodoListItem = () => {
     //let newDescription = document.getElementById("description_input").value;
@@ -82,7 +93,7 @@ class App extends Component {
         return <HomeScreen 
         loadList={this.loadList.bind(this)} 
         todoLists={this.state.todoLists}
-        newTodoList={}/>;
+        newTodoList={() => this.createTodoList()}/>;
       case AppScreen.LIST_SCREEN:            
         return <ListScreen
           goHome={this.goHome.bind(this)}
