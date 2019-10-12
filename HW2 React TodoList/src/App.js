@@ -14,8 +14,7 @@ class App extends Component {
   state = {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
-    currentList: null,
-    currentListHold: null
+    currentList: null
   }
 
   goHome = () => {
@@ -38,7 +37,7 @@ class App extends Component {
 
   createTodoList = () => {
     let todoList = {
-      "key": this.state.todoLists.length,
+      "key": this.getNextAvailableTodoListKey(),
       "name": "Unknown",
       "Owner": "",
       "items": []
@@ -47,51 +46,43 @@ class App extends Component {
     this.loadList(todoList)
   }
 
-  // Add a new todoListItem to the current todoList
-  createTodoListItem = () => {
-    //console.log(this.state.todoItem)
-    //console.log(this.state.ItemScreen)
-    //this.setState({currentScreenHold: this.state.currentScreen})
-    this.setState({currentScreen: AppScreen.ITEM_SCREEN})
-    //console.log(this.state.currentScreen)
-    //let newDescription = document.getElementById("description_input").value;
-    //let newAssignedTo = document.getElementById("assigned_to_input").value;
-    //let newDueDate = document.getElementById("due_date_input").value;
-    //let isChecked = document.getElementById("checkbox_input").checked;
-    //console.log(newDescription)
+  getNextAvailableTodoListKey = () => {
+    let keyLists = []
+    for (let i = 0; i < this.state.todoLists.length; i++) {
+      keyLists.push(this.state.todoLists[i].key)
+    }
 
-    //this.setState({ todoLists: [...this.state.todoLists, 
-      
-      
-      /*{
-      "key": 0,
-      "name": "Things I am Never Gonna Do",
-      "owner": "Rick Astley",
-      "items": [
-          {
-              "key": 0,
-              "description": "Give You Up",
-              "due_date": "2019-09-30",
-              "assigned_to": "Rick",
-              "completed": true
-          },
-          {
-              "key": 1,
-              "description": "Say Goodbye",
-              "due_date": "2019-10-15",
-              "assigned_to": "Rick",
-              "completed": false
-          },
-          {
-              "key": 2,
-              "description": "Make You Cry",
-              "due_date": "2019-12-30",
-              "assigned_to": "Bob",
-              "completed": false
-          }
-      ]
-  }]*///})
-    //this.goHome()
+    for (let i = 0; i < keyLists.length; i++) {
+      if (!(keyLists.includes(i))) {
+        return i
+      }
+    }
+
+    return keyLists.length;  
+  }
+
+  getNextAvailableTodoListItemKey = () => {
+    let keyLists = []
+    for (let i = 0; i < this.state.currentList.items.length; i++) {
+      keyLists.push(this.state.currentList.items[i].key)
+    }
+
+    for (let i = 0; i < keyLists.length; i++) {
+      if (!(keyLists.includes(i))) {
+        return i
+      }
+    }
+
+    return keyLists.length;
+  }
+
+  // Add a new todoListItem to the current todoList
+  createNewTodoListItem(newItem) {
+    newItem.key = this.getNextAvailableTodoListItemKey()
+    this.state.currentList.items.push(newItem)
+    this.loadList(this.state.currentList)
+
+    console.log(this.state.currentList)
   }
 
   render() {
@@ -110,7 +101,9 @@ class App extends Component {
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen
         hideNewListScreen={() => this.loadList(this.state.currentList)}
-        submitNewListScreen={() => this.createTodoListItem()}/>;ß
+        createNewTodoListItem={
+          (newItem) => this.createNewTodoListItem(newItem)
+        }/>;
       default:
         return <div>ERROR</div>;
     }
