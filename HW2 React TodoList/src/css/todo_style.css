@@ -382,3 +382,18 @@ font-size: 16pt;
   background-image: url("../images/AddItem.png")
 }
 
+.list_item_card_button {
+  width: 48px;
+  height: 48px;
+  background-color: #669966;
+  background-position: center;
+}
+.move_up {
+  background-image: url("../images/MoveUp.png");
+}
+.move_down {
+  background-image: url("../images/MoveDown.png");
+}
+.delete {
+  background-image: url("../images/Close.png");
+}

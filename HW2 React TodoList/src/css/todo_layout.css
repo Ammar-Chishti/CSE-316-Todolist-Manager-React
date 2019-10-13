@@ -174,3 +174,12 @@ body {
 }
 
 /* NEW ITEM BUTTON DIV AND BUTTON */
+.list_item_card_button_div {
+  float: right;
+  display: flex;
+}
+.list_item_card_button {
+  text-align: center;
+  border-radius: 5px;
+  margin: 1%;
+}

@@ -41,6 +41,11 @@ export class ListItemCard extends Component {
                 <div className='list_item_card_not_completed'>
                     {this.isPending()}
                 </div>
+                <div className="list_item_card_button_div">
+                    <button id="list_item_card_button_move_up" className="list_item_card_button move_up" type="button"/>
+                    <button id="list_item_card_button_move_down" className="list_item_card_button move_down" type="button"/>
+                    <button id="list_item_card_button_delete" className="list_item_card_button delete" type="button"/>
+                </div>
             </div>
         )
     }

@@ -59,7 +59,7 @@ class App extends Component {
       }
     }
 
-    return keyLists.length;  
+    return keyLists.length;
   }
 
   getNextAvailableTodoListItemKey = () => {
