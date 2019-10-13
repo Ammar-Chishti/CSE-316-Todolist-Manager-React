@@ -15,7 +15,7 @@ class App extends Component {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
     currentList: null,
-    indexToEdit: null
+    indexToEdit: null,
   }
 
   goHome = () => {
@@ -110,7 +110,36 @@ class App extends Component {
     this.loadList(this.state.currentList)
   }
 
-  disableTopBottomButtons(index) {}
+  sortByTask() {
+    console.log(this.state.currentList.items)
+    this.state.currentList.items.sort(function(item1, item2) {
+      if (item1.description < item2.description) {
+        return -1
+      } else if (item1.description > item2.description) {
+        return 1
+      } else {
+        return 0
+      }
+    })
+    this.loadList(this.state.currentList)
+  }
+
+  sortByDueDate() {
+    console.log("dueDate")
+  }
+
+  sortByStatus() {
+    this.state.currentList.items.sort(function(item1, item2) {
+      if (item1.completed < item2.completed)
+              return -1;
+          else if (item1.completed > item2.completed)
+              return 1;
+          else
+              return 0;
+    })
+
+    this.loadList(this.state.currentList)
+  }
 
   render() {
     switch(this.state.currentScreen) {
@@ -124,6 +153,7 @@ class App extends Component {
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           deleteList={this.delTodo.bind(this)}
+
           displayNewListItem={
             () => {
               this.setState({createNewList: true})
@@ -137,10 +167,15 @@ class App extends Component {
               this.setState({indexToEdit: index})
             }
           }
+
           todoListItemsLength={this.state.currentList.items.length}
           moveUpTodoListItem={(index) => this.moveUpTodoListItem(index, index-1)}
           moveDownTodoListItem={(index) => this.moveDownTodoListItem(index, index+1)}
           deleteTodoListItem={(index) => this.deleteTodoListItem(index)}
+          
+          sortByTask={() => this.sortByTask()}
+          sortByDueDate={() => this.sortByDueDate()}
+          sortByStatus={() => this.sortByStatus()}
           />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen
