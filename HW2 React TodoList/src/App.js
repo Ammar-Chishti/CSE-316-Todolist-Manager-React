@@ -96,8 +96,12 @@ class App extends Component {
     this.loadList(this.state.currentList)
   }
 
-
-  //moveListItemUp(index) {}
+  moveUpTodoListItem(index1, index2) {
+    let temp = this.state.currentList.items[index1]
+    this.state.currentList.items[index1] = this.state.currentList.items[index2]
+    this.state.currentList.items[index2] = temp
+    this.loadList(this.state.currentList)
+  }
 
   disableTopBottomButtons(index) {}
 
@@ -126,8 +130,8 @@ class App extends Component {
               this.setState({indexToEdit: index})
             }
           }
-          moveListItemUp={
-            (index) => console.log(this.props.children)
+          moveUpTodoListItem={
+            (index) => this.moveUpTodoListItem(index, index-1)
           }
 
           deleteTodoListItem={(index) => this.deleteTodoListItem(index)}

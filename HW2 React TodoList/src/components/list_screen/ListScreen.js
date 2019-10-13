@@ -59,8 +59,8 @@ export class ListScreen extends Component {
                 todoList={this.props.todoList} 
                 displayNewListItem={this.props.displayNewListItem}
                 displayEditListItem={(index) => this.props.displayEditListItem(index)}
-                moveListItemUp={(index) => this.props.moveListItemUp(index)}
-                
+                moveUpTodoListItem={(index) => this.props.moveUpTodoListItem(index)}
+                //moveDownTodoListItem={(index) => this.props.moveDownTodoListItem(index)}
                 deleteTodoListItem={(index) => this.props.deleteTodoListItem(index)}
                 
                 />

@@ -28,18 +28,21 @@ export class ListItemCard extends Component {
         //console.log("Hello World");
     //}
 
-    handleButtonClick = (e) => {
+    handleUpButtonClick= (e) => {
         e.stopPropagation();
-        this.props.deleteTodoListItem()
 
-        /*
-        this.props.moveListItemUp();
-
-        if (this.props.itemIndex === 0) {
-            e.target.style.backgroundColor = "blue"
+        if (this.props.itemIndex != 0) {
+            this.props.moveUpTodoListItem();
         }
-        */
-        //console.log(e.target)
+    }
+
+    handleDownButtonClick = (e) => {
+        e.stopPropagation();
+    }
+
+    handleDeleteButtonClick = (e) => {
+        e.stopPropagation();
+        this.props.deleteTodoListItem();
     }
     
     render() {
@@ -63,9 +66,9 @@ export class ListItemCard extends Component {
                     {this.isPending()}
                 </div>
                 <div className="list_item_card_button_div">
-                    <button id="list_item_card_button_move_up" className="list_item_card_button move_up" type="button" onClick={this.handleButtonClick}/>
-                    <button id="list_item_card_button_move_down" className="list_item_card_button move_down" type="button" onClick={this.handleButtonClick}/>
-                    <button id="list_item_card_button_delete" className="list_item_card_button delete" type="button" onClick={this.handleButtonClick}/>
+                    <button id="list_item_card_button_move_up" className="list_item_card_button move_up" type="button" onClick={this.handleUpButtonClick}/>
+                    <button id="list_item_card_button_move_down" className="list_item_card_button move_down" type="button" onClick={this.handleDownButtonClick}/>
+                    <button id="list_item_card_button_delete" className="list_item_card_button delete" type="button" onClick={this.handleDeleteButtonClick}/>
                 </div>
             </div>
         )
