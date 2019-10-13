@@ -388,6 +388,9 @@ font-size: 16pt;
   background-color: #669966;
   background-position: center;
 }
+.list_item_card_button:disabled {
+  background-color: white
+}
 .move_up {
   background-image: url("../images/MoveUp.png");
 }

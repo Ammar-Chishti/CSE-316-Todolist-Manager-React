@@ -16,6 +16,9 @@ class App extends Component {
     todoLists: testTodoListData.todoLists,
     currentList: null,
     indexToEdit: null,
+    taskIncreasing: false,
+    dueDateIncreasing: false,
+    statusIncreasing: false
   }
 
   goHome = () => {
@@ -100,6 +103,10 @@ class App extends Component {
     let temp = this.state.currentList.items[index1]
     this.state.currentList.items[index1] = this.state.currentList.items[index2]
     this.state.currentList.items[index2] = temp
+
+    this.setState({taskIncreasing: false})
+    this.setState({dueDateIncreasing: false})
+    this.setState({statusIncreasing: false})
     this.loadList(this.state.currentList)
   }
 
@@ -107,36 +114,74 @@ class App extends Component {
     let temp = this.state.currentList.items[index1]
     this.state.currentList.items[index1] = this.state.currentList.items[index2]
     this.state.currentList.items[index2] = temp
+
+    this.setState({taskIncreasing: false})
+    this.setState({dueDateIncreasing: false})
+    this.setState({statusIncreasing: false})
     this.loadList(this.state.currentList)
   }
 
   sortByTask() {
-    console.log(this.state.currentList.items)
-    this.state.currentList.items.sort(function(item1, item2) {
-      if (item1.description < item2.description) {
-        return -1
-      } else if (item1.description > item2.description) {
+    if (this.state.taskIncreasing === false) {
+      this.state.currentList.items.sort(function(item1, item2) {
+        if (item1.description < item2.description) {
+          return -1
+        } else if (item1.description > item2.description) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+      this.setState({taskIncreasing: true})
+    } else {
+      this.state.currentList.items.sort(function(item1, item2) {
         return 1
-      } else {
-        return 0
-      }
-    })
+      })
+      this.setState({taskIncreasing: false})
+    }
+
     this.loadList(this.state.currentList)
   }
 
   sortByDueDate() {
-    console.log("dueDate")
+    if (this.state.dueDateIncreasing === false) {
+      this.state.currentList.items.sort(function(item1, item2) {
+        if (item1.due_date < item2.due_date) {
+          return -1
+        } else if (item1.due_date > item2.due_date) {
+          return 1
+        } else {
+          return 0
+        }
+      })
+      this.setState({dueDateIncreasing: true})
+    } else {
+      this.state.currentList.items.sort(function(item1, item2) {
+        return 1
+      })
+      this.setState({dueDateIncreasing: false})
+    }
+
+    this.loadList(this.state.currentList)
   }
 
   sortByStatus() {
-    this.state.currentList.items.sort(function(item1, item2) {
-      if (item1.completed < item2.completed)
-              return -1;
-          else if (item1.completed > item2.completed)
-              return 1;
-          else
-              return 0;
-    })
+    if (this.state.statusIncreasing === false) {
+      this.state.currentList.items.sort(function(item1, item2) {
+        if (item1.completed < item2.completed)
+                return -1;
+            else if (item1.completed > item2.completed)
+                return 1;
+            else
+                return 0;
+      })
+      this.setState({statusIncreasing: true})
+    } else {
+      this.state.currentList.items.sort(function(item1, items2) {
+        return 1
+      })
+      this.setState({statusIncreasing: false})
+    }
 
     this.loadList(this.state.currentList)
   }
