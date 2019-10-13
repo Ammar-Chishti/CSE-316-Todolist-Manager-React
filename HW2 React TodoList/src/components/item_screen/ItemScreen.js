@@ -65,7 +65,7 @@ export class ItemScreen extends Component {
                     <br />
                     <br />
                     <br />
-                    <button type="button" id="todo_edit_home_submit" className="todo_edit_button" onClick={() => this.props.createNewTodoListItem(this.state)}>Submit</button>
+                    <button type="button" id="todo_edit_home_submit" className="todo_edit_button" onClick={() => this.props.createOrEditTodoListItem(this.state)}>Submit</button>
                     <button type="button" id="todo_edit_home_cancel" className="todo_edit_button" onClick={this.props.hideNewListScreen}>Cancel</button>
                 </div>
             </div>

@@ -15,10 +15,17 @@ export class ListItemCard extends Component {
         }
         return isCompleted
     }
+
+    test = () => {
+        this.props.displayEditListItem();
+        console.log("Hello World");
+    }
     
     render() {
         return (
-            <div className='list_item_card'>
+            <div className='list_item_card'
+                onClick={this.props.displayEditListItem}
+            >
                 <div className='list_item_card_description'>
                     {this.props.listItem.description}
                 </div>

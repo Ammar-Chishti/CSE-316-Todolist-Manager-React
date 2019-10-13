@@ -14,7 +14,8 @@ class App extends Component {
   state = {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
-    currentList: null
+    currentList: null,
+    indexToRemove: null
   }
 
   goHome = () => {
@@ -85,6 +86,12 @@ class App extends Component {
     console.log(this.state.currentList)
   }
 
+  editTodoListItem(newItem, itemIndex) {
+    newItem.key = this.state.currentList.items[itemIndex].key
+    this.state.currentList.items[itemIndex] = newItem
+    this.loadList(this.state.currentList)
+  }
+
   render() {
     switch(this.state.currentScreen) {
       case AppScreen.HOME_SCREEN:
@@ -97,12 +104,25 @@ class App extends Component {
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           deleteList={this.delTodo.bind(this)}
-          createNewListItem={() => this.setState({currentScreen: AppScreen.ITEM_SCREEN})}/>;
+          displayNewListItem={
+            () => {
+              this.state.createNewList = true
+              this.setState({currentScreen: AppScreen.ITEM_SCREEN})
+            }
+          }
+          displayEditListItem={
+            (index) => {
+              this.state.createNewList = false
+              this.setState({currentScreen: AppScreen.ITEM_SCREEN})
+              this.setState({indexToRemove: index})
+            }
+          }
+          />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen
         hideNewListScreen={() => this.loadList(this.state.currentList)}
-        createNewTodoListItem={
-          (newItem) => this.createNewTodoListItem(newItem)
+        createOrEditTodoListItem={
+            (itemInfo) => (this.state.createNewList ? this.createNewTodoListItem(itemInfo) : this.editTodoListItem(itemInfo, this.state.indexToRemove))
         }/>;
       default:
         return <div>ERROR</div>;

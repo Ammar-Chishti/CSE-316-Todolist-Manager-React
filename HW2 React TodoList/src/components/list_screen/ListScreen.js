@@ -57,7 +57,8 @@ export class ListScreen extends Component {
                 </div>
                 <ListItemsTable 
                 todoList={this.props.todoList} 
-                createNewListItem={this.props.createNewListItem}/>
+                displayNewListItem={this.props.displayNewListItem}
+                displayEditListItem={(index) => this.props.displayEditListItem(index)}/>
             </div>
         )
     }

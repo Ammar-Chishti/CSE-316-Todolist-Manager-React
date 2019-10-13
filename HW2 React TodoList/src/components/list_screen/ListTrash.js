@@ -10,7 +10,6 @@ export class ListTrash extends Component {
     render() {
         return (
             <div id="list_trash"
-                //onClick={this.props.deleteList}
                 onClick={this.displayDeletePopup}
             >
                 &#128465;
