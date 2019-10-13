@@ -37,6 +37,9 @@ export class ListItemCard extends Component {
     }
 
     handleDownButtonClick = (e) => {
+        if (this.props.itemIndex != this.props.todoListItemsLength - 1) {
+            this.props.moveDownTodoListItem();
+        }
         e.stopPropagation();
     }
 
