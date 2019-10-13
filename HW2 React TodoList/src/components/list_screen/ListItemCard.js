@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 
 export class ListItemCard extends Component {
+
+    constructor(props) {
+        super(props)
+
+        this.moveUpButton = React.createRef();
+        this.moveDownButton = React.createRef();
+    }
     
     isCompleted() {
         if (this.props.listItem.completed === true) {
@@ -16,9 +23,23 @@ export class ListItemCard extends Component {
         return isCompleted
     }
 
-    test = () => {
-        this.props.displayEditListItem();
-        console.log("Hello World");
+    //test = () => {
+        //this.props.displayEditListItem();
+        //console.log("Hello World");
+    //}
+
+    handleButtonClick = (e) => {
+        e.stopPropagation();
+        this.props.deleteTodoListItem()
+
+        /*
+        this.props.moveListItemUp();
+
+        if (this.props.itemIndex === 0) {
+            e.target.style.backgroundColor = "blue"
+        }
+        */
+        //console.log(e.target)
     }
     
     render() {
@@ -42,9 +63,9 @@ export class ListItemCard extends Component {
                     {this.isPending()}
                 </div>
                 <div className="list_item_card_button_div">
-                    <button id="list_item_card_button_move_up" className="list_item_card_button move_up" type="button"/>
-                    <button id="list_item_card_button_move_down" className="list_item_card_button move_down" type="button"/>
-                    <button id="list_item_card_button_delete" className="list_item_card_button delete" type="button"/>
+                    <button id="list_item_card_button_move_up" className="list_item_card_button move_up" type="button" onClick={this.handleButtonClick}/>
+                    <button id="list_item_card_button_move_down" className="list_item_card_button move_down" type="button" onClick={this.handleButtonClick}/>
+                    <button id="list_item_card_button_delete" className="list_item_card_button delete" type="button" onClick={this.handleButtonClick}/>
                 </div>
             </div>
         )

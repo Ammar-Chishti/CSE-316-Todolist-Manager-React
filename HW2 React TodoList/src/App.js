@@ -15,7 +15,7 @@ class App extends Component {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
     currentList: null,
-    indexToRemove: null
+    indexToEdit: null
   }
 
   goHome = () => {
@@ -77,7 +77,6 @@ class App extends Component {
     return keyLists.length;
   }
 
-  // Add a new todoListItem to the current todoList
   createNewTodoListItem(newItem) {
     newItem.key = this.getNextAvailableTodoListItemKey()
     this.state.currentList.items.push(newItem)
@@ -91,6 +90,16 @@ class App extends Component {
     this.state.currentList.items[itemIndex] = newItem
     this.loadList(this.state.currentList)
   }
+
+  deleteTodoListItem(index) {
+    this.state.currentList.items.splice(index, 1)
+    this.loadList(this.state.currentList)
+  }
+
+
+  //moveListItemUp(index) {}
+
+  disableTopBottomButtons(index) {}
 
   render() {
     switch(this.state.currentScreen) {
@@ -106,23 +115,28 @@ class App extends Component {
           deleteList={this.delTodo.bind(this)}
           displayNewListItem={
             () => {
-              this.state.createNewList = true
+              this.setState({createNewList: true})
               this.setState({currentScreen: AppScreen.ITEM_SCREEN})
             }
           }
           displayEditListItem={
             (index) => {
-              this.state.createNewList = false
+              this.setState({createNewList: false})
               this.setState({currentScreen: AppScreen.ITEM_SCREEN})
-              this.setState({indexToRemove: index})
+              this.setState({indexToEdit: index})
             }
           }
+          moveListItemUp={
+            (index) => console.log(this.props.children)
+          }
+
+          deleteTodoListItem={(index) => this.deleteTodoListItem(index)}
           />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen
         hideNewListScreen={() => this.loadList(this.state.currentList)}
         createOrEditTodoListItem={
-            (itemInfo) => (this.state.createNewList ? this.createNewTodoListItem(itemInfo) : this.editTodoListItem(itemInfo, this.state.indexToRemove))
+            (itemInfo) => (this.state.createNewList ? this.createNewTodoListItem(itemInfo) : this.editTodoListItem(itemInfo, this.state.indexToEdit))
         }/>;
       default:
         return <div>ERROR</div>;
