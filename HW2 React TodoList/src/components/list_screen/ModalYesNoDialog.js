@@ -4,7 +4,9 @@ export class ModalYesNoDialog extends Component {
 
     noButtonClicked() {
         let modalYesNoDialog = document.getElementById("modal_yes_no_dialog")
-        modalYesNoDialog.style.visibility = "hidden"
+        modalYesNoDialog.classList.remove("modal_yes_no_dialog_slide_in")
+        modalYesNoDialog.classList.add("modal_yes_no_dialog_slide_out")
+        window.setTimeout(() => (modalYesNoDialog.style.visibility = "hidden"), 350)
     }
     
     render() {

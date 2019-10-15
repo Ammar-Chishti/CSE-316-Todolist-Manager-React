@@ -4,7 +4,10 @@ export class ListTrash extends Component {
 
     displayDeletePopup() {
         let modalYesNoDialog = document.getElementById("modal_yes_no_dialog")
+        modalYesNoDialog.classList.remove("modal_yes_no_dialog_slide_out")
+        modalYesNoDialog.classList.add("modal_yes_no_dialog_slide_in")
         modalYesNoDialog.style.visibility = "visible"
+        
     }
 
     render() {
