@@ -4,9 +4,6 @@ export class ListItemCard extends Component {
 
     constructor(props) {
         super(props)
-
-        this.moveUpButton = React.createRef();
-        this.moveDownButton = React.createRef();
     }
     
     isCompleted() {
@@ -23,21 +20,16 @@ export class ListItemCard extends Component {
         return isCompleted
     }
 
-    //test = () => {
-        //this.props.displayEditListItem();
-        //console.log("Hello World");
-    //}
-
     handleUpButtonClick= (e) => {
         e.stopPropagation();
 
-        if (this.props.itemIndex != 0) {
+        if (this.props.itemIndex !== 0) {
             this.props.moveUpTodoListItem();
         }
     }
 
     handleDownButtonClick = (e) => {
-        if (this.props.itemIndex != this.props.todoListItemsLength - 1) {
+        if (this.props.itemIndex !== this.props.todoListItemsLength - 1) {
             this.props.moveDownTodoListItem();
         }
         e.stopPropagation();
