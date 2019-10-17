@@ -3,7 +3,9 @@ import testTodoListData from './TestTodoListData.json'
 import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
 import ListScreen from './components/list_screen/ListScreen'
-import jsTPS from './jsTPS'
+import { jsTPS, NameChange_Transaction } from './jsTPS'
+//import jsTPS from './jsTPS'
+//import NameChange_Transaction from './jsTPS'
 
 const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
@@ -19,10 +21,17 @@ class App extends Component {
     indexToEdit: null,
     taskIncreasing: false,
     dueDateIncreasing: false,
-    statusIncreasing: false
+    statusIncreasing: false,
+    transactionsStack: new jsTPS()
   }
 
   goHome = () => {
+
+    let indexOfList = this.state.todoLists.indexOf(this.state.currentList)
+    if (indexOfList >= 0) {
+      this.state.todoLists.splice(indexOfList, 1)
+    }
+    this.state.todoLists.unshift(this.state.currentList)
     this.setState({currentScreen: AppScreen.HOME_SCREEN});
     this.setState({currentList: null});
   }
@@ -32,6 +41,34 @@ class App extends Component {
     this.setState({currentList: todoListToLoad});
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
+  }
+
+  updateListOwner(newOwner) {
+    let nameTransaction = new NameChange_Transaction(this.state.currentList.owner, newOwner);
+    this.state.transactionsStack.addTransaction(nameTransaction);
+    //this.state.currentList.owner = newOwner;
+
+    //console.log(nameTransaction.newName)
+
+
+    //console.log(newO
+    //let a = new NameChange_Transaction(this.state.currentList.owner, newOwner);
+    //a.print();
+  }
+
+  undoTransaction() {
+    //this.undoOwnerTransaction();  // Just to see if undoing owner works
+    console.log(this.state.currentList)
+    this.loadList(this.state.currentList)
+  }
+
+  undoOwnerTransaction() {
+    //console.log(this.state.transactionsStack)
+    //this.state.currentList.owner = this.state.transactionsStack.transactions[0].oldName
+    //console.log(this.state.currentList.owner)
+    //this.goHome()
+    //this.loadList(this.state.currentList)
+    //this.loadList(this.state.currentScreen)
   }
 
   // Delete current TodoList
@@ -89,13 +126,13 @@ class App extends Component {
     console.log(this.state.currentList)
   }
 
-  editTodoListItem(newItem, itemIndex) {
+  editTodoListItem(newItem, itemIndex) { // Need to be able to undo
     newItem.key = this.state.currentList.items[itemIndex].key
     this.state.currentList.items[itemIndex] = newItem
     this.loadList(this.state.currentList)
   }
 
-  deleteTodoListItem(index) {
+  deleteTodoListItem(index) { // Need to be able to undo
     this.state.currentList.items.splice(index, 1)
     this.loadList(this.state.currentList)
   }
@@ -199,6 +236,9 @@ class App extends Component {
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           deleteList={this.delTodo.bind(this)}
+          updateListOwner={(newOwner) => this.updateListOwner(newOwner)}
+
+          undoTransaction={() => this.undoTransaction()}
 
           displayNewListItem={
             () => {
@@ -222,6 +262,11 @@ class App extends Component {
           sortByTask={() => this.sortByTask()}
           sortByDueDate={() => this.sortByDueDate()}
           sortByStatus={() => this.sortByStatus()}
+
+
+          //addOwnerTransaction={(oldOwner, newOwner) => this.addOwnerTransaction(oldOwner, newOwner)}
+
+
           />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen

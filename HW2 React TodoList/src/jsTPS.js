@@ -142,7 +142,7 @@ class jsTPS {
         
         // MAKE SURE TO RESET THE LOCATION OF THE
         // TOP OF THE TPS STACK TOO
-        this.mostRecentTransaction = -1;        
+        this.mostRecentTransaction = -1;       
     }
     
     /**
@@ -318,6 +318,47 @@ class AddToNum_Transaction {
     }
 }
 
+class NameChange_Transaction {
+
+    name = null;
+    oldName = null;
+    newName = null;
+
+    constructor(initName, initNewName) {
+        this.name = initName;
+        this.oldName = initName;
+        this.newName = initNewName;
+    }
+
+    doTransaction() {
+        this.name = this.newName;
+    }
+
+    undoTransaction() {
+        this.name = this.oldName;
+    }
+
+    /*
+    name = null;
+    newText = null;
+    newTextSize = null;
+
+    constructor(initName, initNewText) {
+        this.name = initName;
+        this.newText = initNewText;
+        this.newTextSize = initNewText.length;
+    }
+
+    doTransaction() {
+        this.name = this.name + this.newText;
+    }
+
+    undoTransaction() {
+        this.name = this.name.substring(0, this.name.length - (1 + this.newTextSize))
+    }
+    */
+}
+
 /**
  *
  * @author McKillaGorilla
@@ -422,3 +463,5 @@ class OrMask_Transaction {
         return "Or Mask " + this.mask;
     }
 }
+
+export { jsTPS, NameChange_Transaction }

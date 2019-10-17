@@ -18,6 +18,7 @@ export class ListItemsTable extends Component {
                             listItem={todoItem}
                             displayEditListItem={() => this.props.displayEditListItem(index)}
                             itemIndex={index}
+
                             todoListItemsLength={this.props.todoListItemsLength}
                             moveUpTodoListItem={() => this.props.moveUpTodoListItem(index)}
                             moveDownTodoListItem={() => this.props.moveDownTodoListItem(index)}

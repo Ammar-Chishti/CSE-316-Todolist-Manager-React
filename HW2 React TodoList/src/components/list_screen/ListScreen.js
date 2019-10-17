@@ -29,11 +29,17 @@ export class ListScreen extends Component {
         
     }
     handleChangeOwner = (e) => {
-        this.props.todoList.owner = e.target.value
+        this.props.updateListOwner(e.target.value);
+        //this.props.todoList.owner = e.target.value
+    }
+    undoTransaction = (e) => {
+        if (e.ctrlKey && e.keyCode === 90) {
+            this.props.undoTransaction();
+        }
     }
     render() {
         return (
-            <div id="todo_list">
+            <div id="todo_list" onKeyDown ={(e) => this.undoTransaction(e)} tabIndex="0">
                 <ListHeading goHome={this.props.goHome} />
                 <ModalYesNoDialog deleteList={this.props.deleteList}/>
                 <ListTrash />
