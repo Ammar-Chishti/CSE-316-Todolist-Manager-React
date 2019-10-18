@@ -320,43 +320,123 @@ class AddToNum_Transaction {
 
 class NameChange_Transaction {
 
-    name = null;
+    todoList = null;
     oldName = null;
     newName = null;
+    transactionType = null;
 
-    constructor(initName, initNewName) {
-        this.name = initName;
-        this.oldName = initName;
-        this.newName = initNewName;
+    constructor(todoList, initNewName) {
+        this.todoList = todoList;
+        this.oldName = todoList.name;
+        this.newName = initNewName
+        this.transactionType = "nameChange"
     }
 
     doTransaction() {
-        this.name = this.newName;
+        this.todoList.name = this.newName;
     }
 
     undoTransaction() {
-        this.name = this.oldName;
+        this.todoList.name = this.oldName;
     }
+}
 
-    /*
-    name = null;
-    newText = null;
-    newTextSize = null;
+class OwnerChange_Transaction {
 
-    constructor(initName, initNewText) {
-        this.name = initName;
-        this.newText = initNewText;
-        this.newTextSize = initNewText.length;
+    todoList = null;
+    oldOwner = null;
+    newOwner = null;
+    transactionType = null;
+
+    constructor(todoList, initNewOwner) {
+        this.todoList = todoList
+        this.oldOwner = todoList.owner;
+        this.newOwner = initNewOwner;
+        this.transactionType = "ownerChange"
     }
 
     doTransaction() {
-        this.name = this.name + this.newText;
+        this.todoList.owner = this.newOwner;
     }
 
     undoTransaction() {
-        this.name = this.name.substring(0, this.name.length - (1 + this.newTextSize))
+        this.todoList.owner = this.oldOwner;
     }
-    */
+}
+
+class ListItemOrderChange_Transaction {
+
+    todoList = null;
+    index1 = null;
+    index2 = null;
+    transactionType = null;
+
+    constructor(todoList, index1, index2) {
+        this.todoList = todoList;
+        this.index1 = index1;
+        this.index2 = index2;
+        this.transactionType = "listItemOrderChange";
+    }
+
+    doTransaction() {
+        let temp = this.todoList.items[this.index1];
+        this.todoList.items[this.index1] = this.todoList.items[this.index2];
+        this.todoList.items[this.index2] = temp;
+    }
+
+    undoTransaction() {
+        let temp = this.todoList.items[this.index2];
+        this.todoList.items[this.index2] = this.todoList.items[this.index1];
+        this.todoList.items[this.index1] = temp;
+    }
+}
+
+class ListItemRemoval_Transaction {
+    
+    todoList = null;
+    index = null;
+    todoListItem = null;
+    transactionType = null;
+
+    constructor(todoList, index) {
+        this.todoList = todoList;
+        this.index = index;
+        this.todoListItem = this.todoList.items[index]
+        this.transactionType = "listItemRemove"
+    }
+
+    doTransaction() {
+        this.todoList.items.splice(this.index, 1);
+    }
+
+    undoTransaction() {
+        this.todoList.items.splice(this.index, 0, this.todoListItem);
+    }
+}
+
+class ListItemEdit_Transaction {
+    
+    todoList = null;
+    itemIndex = null;
+    oldTodoListItem = null;
+    newTodoListItem = null;
+    transactionType = null;
+
+    constructor(todoList, itemIndex, newTodoListItem) {
+        this.todoList = todoList;
+        this.itemIndex = itemIndex;
+        this.oldTodoListItem = this.todoList.items[itemIndex]
+        this.newTodoListItem = newTodoListItem;
+        this.transactionType = "listItemEdit";
+    }
+
+    doTransaction() {
+        this.todoList.items[this.itemIndex] = this.newTodoListItem;
+    }
+
+    undoTransaction() {
+        this.todoList.items[this.itemIndex] = this.oldTodoListItem;
+    }
 }
 
 /**
@@ -464,4 +544,4 @@ class OrMask_Transaction {
     }
 }
 
-export { jsTPS, NameChange_Transaction }
+export { jsTPS, NameChange_Transaction, OwnerChange_Transaction, ListItemOrderChange_Transaction, ListItemRemoval_Transaction, ListItemEdit_Transaction }

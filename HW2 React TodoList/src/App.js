@@ -3,7 +3,7 @@ import testTodoListData from './TestTodoListData.json'
 import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
 import ListScreen from './components/list_screen/ListScreen'
-import { jsTPS, NameChange_Transaction } from './jsTPS'
+import { jsTPS, NameChange_Transaction, OwnerChange_Transaction, ListItemOrderChange_Transaction, ListItemRemoval_Transaction, ListItemEdit_Transaction } from './jsTPS'
 //import jsTPS from './jsTPS'
 //import NameChange_Transaction from './jsTPS'
 
@@ -26,7 +26,6 @@ class App extends Component {
   }
 
   goHome = () => {
-
     let indexOfList = this.state.todoLists.indexOf(this.state.currentList)
     if (indexOfList >= 0) {
       this.state.todoLists.splice(indexOfList, 1)
@@ -43,32 +42,55 @@ class App extends Component {
     console.log("currentScreen: " + this.state.currentScreen);
   }
 
-  updateListOwner(newOwner) {
-    let nameTransaction = new NameChange_Transaction(this.state.currentList.owner, newOwner);
+  updateListName(newName) {
+    let nameTransaction = new NameChange_Transaction(this.state.currentList, newName)
     this.state.transactionsStack.addTransaction(nameTransaction);
-    //this.state.currentList.owner = newOwner;
+  }
 
-    //console.log(nameTransaction.newName)
-
-
-    //console.log(newO
-    //let a = new NameChange_Transaction(this.state.currentList.owner, newOwner);
-    //a.print();
+  updateListOwner(newOwner) {
+    let ownerTransaction = new OwnerChange_Transaction(this.state.currentList, newOwner);
+    this.state.transactionsStack.addTransaction(ownerTransaction);
   }
 
   undoTransaction() {
-    //this.undoOwnerTransaction();  // Just to see if undoing owner works
-    console.log(this.state.currentList)
-    this.loadList(this.state.currentList)
+    let transactionType = null;
+    if (this.state.transactionsStack.mostRecentTransaction >= 0) {
+      transactionType = this.state.transactionsStack.transactions[this.state.transactionsStack.mostRecentTransaction].transactionType
+    }
+    this.state.transactionsStack.undoTransaction();
+    console.log(transactionType)
+
+    if (transactionType === "nameChange") {
+      document.getElementById("list_name_textfield").value = this.state.currentList.name;
+    } else if (transactionType === "ownerChange") {
+      document.getElementById("list_owner_textfield").value = this.state.currentList.owner;
+    } else if (transactionType === "listItemOrderChange") {
+      this.loadList(this.state.currentList);
+    } else if (transactionType === "listItemRemove") {
+      this.loadList(this.state.currentList);
+    } else if (transactionType === "listItemEdit") {
+      this.loadList(this.state.currentList);
+    }
   }
 
-  undoOwnerTransaction() {
-    //console.log(this.state.transactionsStack)
-    //this.state.currentList.owner = this.state.transactionsStack.transactions[0].oldName
-    //console.log(this.state.currentList.owner)
-    //this.goHome()
-    //this.loadList(this.state.currentList)
-    //this.loadList(this.state.currentScreen)
+  redoTransaction() {
+    this.state.transactionsStack.doTransaction();
+    let transactionType = null;
+    if (this.state.transactionsStack.mostRecentTransaction >= 0) {
+      transactionType = this.state.transactionsStack.transactions[this.state.transactionsStack.mostRecentTransaction].transactionType
+    }
+
+    if (transactionType === "nameChange") {
+      document.getElementById("list_name_textfield").value = this.state.currentList.name;
+    } else if (transactionType === "ownerChange") {
+      document.getElementById("list_owner_textfield").value = this.state.currentList.owner;
+    } else if (transactionType === "listItemOrderChange") {
+      this.loadList(this.state.currentList);
+    } else if (transactionType === "listItemRemove") {
+      this.loadList(this.state.currentList);
+    } else if (transactionType === "listItemEdit") {
+      this.loadList(this.state.currentList);
+    }
   }
 
   // Delete current TodoList
@@ -84,6 +106,7 @@ class App extends Component {
       "Owner": "",
       "items": []
     }
+
     this.setState({ todoLists: [...this.state.todoLists, todoList]})
     this.loadList(todoList)
   }
@@ -126,21 +149,23 @@ class App extends Component {
     console.log(this.state.currentList)
   }
 
-  editTodoListItem(newItem, itemIndex) { // Need to be able to undo
+  editTodoListItem(newItem, itemIndex) {
     newItem.key = this.state.currentList.items[itemIndex].key
-    this.state.currentList.items[itemIndex] = newItem
-    this.loadList(this.state.currentList)
+
+    let editTodoItemTransaction = new ListItemEdit_Transaction(this.state.currentList, itemIndex, newItem);
+    this.state.transactionsStack.addTransaction(editTodoItemTransaction);
+    this.loadList(this.state.currentList);
   }
 
-  deleteTodoListItem(index) { // Need to be able to undo
-    this.state.currentList.items.splice(index, 1)
+  deleteTodoListItem(index) {
+    let deleteTodoItemTransaction = new ListItemRemoval_Transaction(this.state.currentList, index);
+    this.state.transactionsStack.addTransaction(deleteTodoItemTransaction);
     this.loadList(this.state.currentList)
   }
 
   moveUpTodoListItem(index1, index2) {
-    let temp = this.state.currentList.items[index1]
-    this.state.currentList.items[index1] = this.state.currentList.items[index2]
-    this.state.currentList.items[index2] = temp
+    let changeTodoItemOrderTransaction = new ListItemOrderChange_Transaction(this.state.currentList, index1, index2);
+    this.state.transactionsStack.addTransaction(changeTodoItemOrderTransaction);
 
     this.setState({taskIncreasing: false})
     this.setState({dueDateIncreasing: false})
@@ -149,9 +174,8 @@ class App extends Component {
   }
 
   moveDownTodoListItem(index1, index2) {
-    let temp = this.state.currentList.items[index1]
-    this.state.currentList.items[index1] = this.state.currentList.items[index2]
-    this.state.currentList.items[index2] = temp
+    let changeTodoItemOrderTransaction = new ListItemOrderChange_Transaction(this.state.currentList, index1, index2);
+    this.state.transactionsStack.addTransaction(changeTodoItemOrderTransaction);
 
     this.setState({taskIncreasing: false})
     this.setState({dueDateIncreasing: false})
@@ -236,9 +260,11 @@ class App extends Component {
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           deleteList={this.delTodo.bind(this)}
+          updateListName={(newName) => this.updateListName(newName)}
           updateListOwner={(newOwner) => this.updateListOwner(newOwner)}
 
           undoTransaction={() => this.undoTransaction()}
+          redoTransaction={() => this.redoTransaction()}
 
           displayNewListItem={
             () => {
@@ -262,10 +288,6 @@ class App extends Component {
           sortByTask={() => this.sortByTask()}
           sortByDueDate={() => this.sortByDueDate()}
           sortByStatus={() => this.sortByStatus()}
-
-
-          //addOwnerTransaction={(oldOwner, newOwner) => this.addOwnerTransaction(oldOwner, newOwner)}
-
 
           />;
       case AppScreen.ITEM_SCREEN:

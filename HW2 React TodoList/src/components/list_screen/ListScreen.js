@@ -24,17 +24,18 @@ export class ListScreen extends Component {
             homeButton.style.pointerEvents = "none"
         } else {
             homeButton.style.pointerEvents = "auto";
-            this.props.todoList.name = e.target.value
+            this.props.updateListName(e.target.value);
         }
         
     }
     handleChangeOwner = (e) => {
         this.props.updateListOwner(e.target.value);
-        //this.props.todoList.owner = e.target.value
     }
     undoTransaction = (e) => {
         if (e.ctrlKey && e.keyCode === 90) {
             this.props.undoTransaction();
+        } else if (e.ctrlKey && e.keyCode === 89) {
+            this.props.redoTransaction();
         }
     }
     render() {
@@ -50,7 +51,7 @@ export class ListScreen extends Component {
                             defaultValue={this.getListName()}
                             type="text" 
                             id="list_name_textfield" 
-                            onChange={this.handleChangeName}/>
+                            onBlur={this.handleChangeName}/>
                     </div>
                     <div id="list_details_owner_container" className="text_toolbar">
                         <span id="list_owner_prompt">Owner:</span>
@@ -58,7 +59,7 @@ export class ListScreen extends Component {
                             defaultValue={this.getListOwner()}
                             type="text" 
                             id="list_owner_textfield"
-                            onChange={this.handleChangeOwner}/>
+                            onBlur={this.handleChangeOwner}/>
                     </div>
                 </div>
                 <ListItemsTable 
